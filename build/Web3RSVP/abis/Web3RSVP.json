@@ -11,7 +11,7 @@
       {
         "indexed": false,
         "internalType": "address",
-        "name": "confirmAttendee",
+        "name": "ConfirmAttendee",
         "type": "address"
       }
     ],
@@ -86,7 +86,7 @@
       {
         "indexed": false,
         "internalType": "address",
-        "name": "confirmAttendee",
+        "name": "ConfirmAttendee",
         "type": "address"
       }
     ],
@@ -119,7 +119,7 @@
         "type": "address"
       }
     ],
-    "name": "confirmAttendee",
+    "name": "ConfirmAttendee",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

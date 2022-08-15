@@ -7,8 +7,8 @@ import {
   Entity,
   Bytes,
   Address,
-  BigInt
-} from "@graphprotocol/graph-ts";
+  BigInt,
+} from '@graphprotocol/graph-ts';
 
 export class ConfirmAttendee extends ethereum.Event {
   get params(): ConfirmAttendee__Params {
@@ -27,7 +27,7 @@ export class ConfirmAttendee__Params {
     return this._event.parameters[0].value.toBytes();
   }
 
-  get confirmAttendee(): Address {
+  get attendeeAddress(): Address {
     return this._event.parameters[1].value.toAddress();
   }
 }
@@ -105,7 +105,7 @@ export class NewRSVP__Params {
     return this._event.parameters[0].value.toBytes();
   }
 
-  get confirmAttendee(): Address {
+  get attendeeAddress(): Address {
     return this._event.parameters[1].value.toAddress();
   }
 }
@@ -139,13 +139,13 @@ export class Web3RSVP__idToEventResult {
 
   toMap(): TypedMap<string, ethereum.Value> {
     let map = new TypedMap<string, ethereum.Value>();
-    map.set("value0", ethereum.Value.fromFixedBytes(this.value0));
-    map.set("value1", ethereum.Value.fromString(this.value1));
-    map.set("value2", ethereum.Value.fromAddress(this.value2));
-    map.set("value3", ethereum.Value.fromUnsignedBigInt(this.value3));
-    map.set("value4", ethereum.Value.fromUnsignedBigInt(this.value4));
-    map.set("value5", ethereum.Value.fromUnsignedBigInt(this.value5));
-    map.set("value6", ethereum.Value.fromBoolean(this.value6));
+    map.set('value0', ethereum.Value.fromFixedBytes(this.value0));
+    map.set('value1', ethereum.Value.fromString(this.value1));
+    map.set('value2', ethereum.Value.fromAddress(this.value2));
+    map.set('value3', ethereum.Value.fromUnsignedBigInt(this.value3));
+    map.set('value4', ethereum.Value.fromUnsignedBigInt(this.value4));
+    map.set('value5', ethereum.Value.fromUnsignedBigInt(this.value5));
+    map.set('value6', ethereum.Value.fromBoolean(this.value6));
     return map;
   }
 
@@ -180,13 +180,13 @@ export class Web3RSVP__idToEventResult {
 
 export class Web3RSVP extends ethereum.SmartContract {
   static bind(address: Address): Web3RSVP {
-    return new Web3RSVP("Web3RSVP", address);
+    return new Web3RSVP('Web3RSVP', address);
   }
 
   idToEvent(param0: Bytes): Web3RSVP__idToEventResult {
     let result = super.call(
-      "idToEvent",
-      "idToEvent(bytes32):(bytes32,string,address,uint256,uint256,uint256,bool)",
+      'idToEvent',
+      'idToEvent(bytes32):(bytes32,string,address,uint256,uint256,uint256,bool)',
       [ethereum.Value.fromFixedBytes(param0)]
     );
 
@@ -203,8 +203,8 @@ export class Web3RSVP extends ethereum.SmartContract {
 
   try_idToEvent(param0: Bytes): ethereum.CallResult<Web3RSVP__idToEventResult> {
     let result = super.tryCall(
-      "idToEvent",
-      "idToEvent(bytes32):(bytes32,string,address,uint256,uint256,uint256,bool)",
+      'idToEvent',
+      'idToEvent(bytes32):(bytes32,string,address,uint256,uint256,uint256,bool)',
       [ethereum.Value.fromFixedBytes(param0)]
     );
     if (result.reverted) {

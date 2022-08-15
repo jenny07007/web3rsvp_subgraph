@@ -73,9 +73,9 @@ function getOrCreateAccount(address: Address): Account {
 }
 
 export function handleNewRSVP(event: NewRSVP): void {
-  let id = event.params.eventID.toHex() + event.params.confirmAttendee.toHex();
+  let id = event.params.eventID.toHex() + event.params.attendeeAddress.toHex();
   let newRSVP = RSVP.load(id);
-  let account = getOrCreateAccount(event.params.confirmAttendee);
+  let account = getOrCreateAccount(event.params.attendeeAddress);
   let thisEvent = Event.load(event.params.eventID.toHex());
   if (newRSVP == null && thisEvent != null) {
     newRSVP = new RSVP(id);
@@ -90,9 +90,9 @@ export function handleNewRSVP(event: NewRSVP): void {
 }
 
 export function handleConfirmedAttendee(event: ConfirmAttendee): void {
-  let id = event.params.eventID.toHex() + event.params.confirmAttendee.toHex();
+  let id = event.params.eventID.toHex() + event.params.attendeeAddress.toHex();
   let newConfirmation = Confirmation.load(id);
-  let account = getOrCreateAccount(event.params.confirmAttendee);
+  let account = getOrCreateAccount(event.params.attendeeAddress);
   let thisEvent = Event.load(event.params.eventID.toHex());
   if (newConfirmation == null && thisEvent != null) {
     newConfirmation = new Confirmation(id);

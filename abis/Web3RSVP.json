@@ -11,7 +11,7 @@
       {
         "indexed": false,
         "internalType": "address",
-        "name": "confirmAttendee",
+        "name": "ConfirmAttendee",
         "type": "address"
       }
     ],
@@ -86,7 +86,7 @@
       {
         "indexed": false,
         "internalType": "address",
-        "name": "confirmAttendee",
+        "name": "ConfirmAttendee",
         "type": "address"
       }
     ],
@@ -107,7 +107,7 @@
       { "internalType": "bytes32", "name": "eventId", "type": "bytes32" },
       { "internalType": "address", "name": "attendee", "type": "address" }
     ],
-    "name": "confirmAttendee",
+    "name": "ConfirmAttendee",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
