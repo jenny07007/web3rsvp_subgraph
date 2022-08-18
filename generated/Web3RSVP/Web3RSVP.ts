@@ -7,19 +7,19 @@ import {
   Entity,
   Bytes,
   Address,
-  BigInt,
-} from '@graphprotocol/graph-ts';
+  BigInt
+} from "@graphprotocol/graph-ts";
 
-export class ConfirmAttendee extends ethereum.Event {
-  get params(): ConfirmAttendee__Params {
-    return new ConfirmAttendee__Params(this);
+export class ConfirmedAttendee extends ethereum.Event {
+  get params(): ConfirmedAttendee__Params {
+    return new ConfirmedAttendee__Params(this);
   }
 }
 
-export class ConfirmAttendee__Params {
-  _event: ConfirmAttendee;
+export class ConfirmedAttendee__Params {
+  _event: ConfirmedAttendee;
 
-  constructor(event: ConfirmAttendee) {
+  constructor(event: ConfirmedAttendee) {
     this._event = event;
   }
 
@@ -32,16 +32,16 @@ export class ConfirmAttendee__Params {
   }
 }
 
-export class DepositPaidOut extends ethereum.Event {
-  get params(): DepositPaidOut__Params {
-    return new DepositPaidOut__Params(this);
+export class DepositsPaidOut extends ethereum.Event {
+  get params(): DepositsPaidOut__Params {
+    return new DepositsPaidOut__Params(this);
   }
 }
 
-export class DepositPaidOut__Params {
-  _event: DepositPaidOut;
+export class DepositsPaidOut__Params {
+  _event: DepositsPaidOut;
 
-  constructor(event: DepositPaidOut) {
+  constructor(event: DepositsPaidOut) {
     this._event = event;
   }
 
@@ -67,7 +67,7 @@ export class NewEventCreated__Params {
     return this._event.parameters[0].value.toBytes();
   }
 
-  get createorAddress(): Address {
+  get creatorAddress(): Address {
     return this._event.parameters[1].value.toAddress();
   }
 
@@ -139,13 +139,13 @@ export class Web3RSVP__idToEventResult {
 
   toMap(): TypedMap<string, ethereum.Value> {
     let map = new TypedMap<string, ethereum.Value>();
-    map.set('value0', ethereum.Value.fromFixedBytes(this.value0));
-    map.set('value1', ethereum.Value.fromString(this.value1));
-    map.set('value2', ethereum.Value.fromAddress(this.value2));
-    map.set('value3', ethereum.Value.fromUnsignedBigInt(this.value3));
-    map.set('value4', ethereum.Value.fromUnsignedBigInt(this.value4));
-    map.set('value5', ethereum.Value.fromUnsignedBigInt(this.value5));
-    map.set('value6', ethereum.Value.fromBoolean(this.value6));
+    map.set("value0", ethereum.Value.fromFixedBytes(this.value0));
+    map.set("value1", ethereum.Value.fromString(this.value1));
+    map.set("value2", ethereum.Value.fromAddress(this.value2));
+    map.set("value3", ethereum.Value.fromUnsignedBigInt(this.value3));
+    map.set("value4", ethereum.Value.fromUnsignedBigInt(this.value4));
+    map.set("value5", ethereum.Value.fromUnsignedBigInt(this.value5));
+    map.set("value6", ethereum.Value.fromBoolean(this.value6));
     return map;
   }
 
@@ -180,13 +180,13 @@ export class Web3RSVP__idToEventResult {
 
 export class Web3RSVP extends ethereum.SmartContract {
   static bind(address: Address): Web3RSVP {
-    return new Web3RSVP('Web3RSVP', address);
+    return new Web3RSVP("Web3RSVP", address);
   }
 
   idToEvent(param0: Bytes): Web3RSVP__idToEventResult {
     let result = super.call(
-      'idToEvent',
-      'idToEvent(bytes32):(bytes32,string,address,uint256,uint256,uint256,bool)',
+      "idToEvent",
+      "idToEvent(bytes32):(bytes32,string,address,uint256,uint256,uint256,bool)",
       [ethereum.Value.fromFixedBytes(param0)]
     );
 
@@ -203,8 +203,8 @@ export class Web3RSVP extends ethereum.SmartContract {
 
   try_idToEvent(param0: Bytes): ethereum.CallResult<Web3RSVP__idToEventResult> {
     let result = super.tryCall(
-      'idToEvent',
-      'idToEvent(bytes32):(bytes32,string,address,uint256,uint256,uint256,bool)',
+      "idToEvent",
+      "idToEvent(bytes32):(bytes32,string,address,uint256,uint256,uint256,bool)",
       [ethereum.Value.fromFixedBytes(param0)]
     );
     if (result.reverted) {

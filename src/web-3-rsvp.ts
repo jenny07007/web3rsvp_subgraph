@@ -1,19 +1,19 @@
-import { Address, ipfs, json } from '@graphprotocol/graph-ts';
+import { Address, ipfs, json } from "@graphprotocol/graph-ts";
 import {
-  ConfirmAttendee,
+  ConfirmedAttendee,
   NewEventCreated,
   NewRSVP,
-  DepositPaidOut,
-} from '../generated/Web3RSVP/Web3RSVP';
-import { Account, RSVP, Confirmation, Event } from '../generated/schema';
-import { integer } from '@protofire/subgraph-toolkit';
+  DepositsPaidOut,
+} from "../generated/Web3RSVP/Web3RSVP";
+import { Account, RSVP, Confirmation, Event } from "../generated/schema";
+import { integer } from "@protofire/subgraph-toolkit";
 
 export function handleNewEventCreated(event: NewEventCreated): void {
   let newEvent = Event.load(event.params.eventID.toHex());
   if (newEvent == null) {
     newEvent = new Event(event.params.eventID.toHex());
     newEvent.eventID = event.params.eventID;
-    newEvent.eventOwner = event.params.createorAddress;
+    newEvent.eventOwner = event.params.creatorAddress;
     newEvent.eventTimestamp = event.params.eventTimestamp;
     newEvent.maxCapacity = event.params.maxCapacity;
     newEvent.deposit = event.params.deposit;
@@ -21,15 +21,15 @@ export function handleNewEventCreated(event: NewEventCreated): void {
     newEvent.totalRSVPs = integer.ZERO;
     newEvent.totalConfirmedAttendees = integer.ZERO;
 
-    let metadata = ipfs.cat(event.params.eventDataCID + '/data.json');
+    let metadata = ipfs.cat(event.params.eventDataCID + "/data.json");
 
     if (metadata) {
       const value = json.fromBytes(metadata).toObject();
       if (value) {
-        const name = value.get('name');
-        const description = value.get('description');
-        const link = value.get('link');
-        const imagePath = value.get('image');
+        const name = value.get("name");
+        const description = value.get("description");
+        const link = value.get("link");
+        const imagePath = value.get("image");
 
         if (name) {
           newEvent.name = name.toString();
@@ -45,13 +45,13 @@ export function handleNewEventCreated(event: NewEventCreated): void {
 
         if (imagePath) {
           const imageURL =
-            'https://ipfs.io/ipfs/' +
+            "https://ipfs.io/ipfs/" +
             event.params.eventDataCID +
             imagePath.toString();
           newEvent.imageURL = imageURL;
         } else {
           const fallbackURL =
-            'https://ipfs.io/ipfs/bafybeibssbrlptcefbqfh4vpw2wlmqfj2kgxt3nil4yujxbmdznau3t5wi/event.png';
+            "https://ipfs.io/ipfs/bafybeibssbrlptcefbqfh4vpw2wlmqfj2kgxt3nil4yujxbmdznau3t5wi/event.png";
           newEvent.imageURL = fallbackURL;
         }
       }
@@ -89,7 +89,7 @@ export function handleNewRSVP(event: NewRSVP): void {
   }
 }
 
-export function handleConfirmedAttendee(event: ConfirmAttendee): void {
+export function handleConfirmedAttendee(event: ConfirmedAttendee): void {
   let id = event.params.eventID.toHex() + event.params.attendeeAddress.toHex();
   let newConfirmation = Confirmation.load(id);
   let account = getOrCreateAccount(event.params.attendeeAddress);
@@ -100,17 +100,17 @@ export function handleConfirmedAttendee(event: ConfirmAttendee): void {
     newConfirmation.event = thisEvent.id;
     newConfirmation.save();
     thisEvent.totalConfirmedAttendees = integer.increment(
-      thisEvent.totalConfirmedAttendees
+      thisEvent.totalConfirmedAttendees,
     );
     thisEvent.save();
     account.totalAttendedEvents = integer.increment(
-      account.totalAttendedEvents
+      account.totalAttendedEvents,
     );
     account.save();
   }
 }
 
-export function handleDepositsPaidOut(event: DepositPaidOut): void {
+export function handleDepositsPaidOut(event: DepositsPaidOut): void {
   let thisEvent = Event.load(event.params.eventID.toHex());
   if (thisEvent) {
     thisEvent.paidOut = true;
